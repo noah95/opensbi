@@ -89,7 +89,10 @@ int clint_cold_ipi_init(struct clint_data *clint)
 	/* Add CLINT ipi region to the root domain */
 	sbi_domain_memregion_init(clint->addr + CLINT_IPI_OFF,
 				  CLINT_IPI_SIZE,
-				  SBI_DOMAIN_MEMREGION_MMIO, &reg);
+				  SBI_DOMAIN_MEMREGION_MMIO | 
+          // Allow access to clint
+          SBI_DOMAIN_MEMREGION_READABLE |
+          SBI_DOMAIN_MEMREGION_WRITEABLE, &reg);
 	rc = sbi_domain_root_add_memregion(&reg);
 	if (rc)
 		return rc;
